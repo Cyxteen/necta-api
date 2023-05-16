@@ -26,7 +26,7 @@ def create_token(data: dict):
 def verify_token(token: str, credentials_exception):
     try:
         decoded_token = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        id: str= decoded_token.get("user_id")
+        id: str = decoded_token.get("user_id")
 
         if id is None:
             raise credentials_exception

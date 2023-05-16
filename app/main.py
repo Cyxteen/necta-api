@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI
-from .database import engine, get_db
+from .database import engine
 from . import models
 from .routers import users, auth
 

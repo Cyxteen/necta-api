@@ -9,6 +9,10 @@ class CreateUser(BaseModel):
     email: EmailStr
     password: str
 
+class UpdateUser(BaseModel):
+    username: str | None = None
+    email: EmailStr | None = None
+    password: str | None = None
 
 class UserOut(BaseModel):
     username: str

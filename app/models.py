@@ -1,6 +1,5 @@
-from sqlalchemy import TIMESTAMP, Column, Integer, String, text
+from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, text
 from .database import Base
-from datetime import datetime
 
 # user table
 class User(Base):
@@ -11,11 +10,3 @@ class User(Base):
     password = Column(String(255), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-
-# # API key table
-# class User(Base):
-#     __tablename__ = "api_key"
-#     id = Column(Integer, primary_key=True, nullable=False)
-#      = Column(String(255), nullable=False)
-#     key = Column(String(255), nullable=False, unique=True)
-#     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
