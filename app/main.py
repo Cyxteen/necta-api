@@ -2,8 +2,8 @@ from fastapi import Depends, FastAPI
 from .database import engine
 from . import models
 from .routers import users, auth
-
-models.Base.metadata.create_all(bind=engine)
+# created the database tables before alembic installation
+# models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
