@@ -14,9 +14,9 @@ router = APIRouter(
 
 # route for creating a user
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
-def createUSer(user: schemas.CreateUser, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+def createUSer(user: schemas.CreateUser, db: Session = Depends(get_db)):
     # for some reason the user_id returns a dict
-    id = user_id.id
+    # id = user_id.id
     # check if the email already exists in the database
     existing_user = db.query(models.User).filter(models.User.email == user.email).first()
     if existing_user:
