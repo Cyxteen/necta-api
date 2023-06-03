@@ -1,9 +1,4 @@
-"""
-----------------------------------------
-        PYTHON API Version 1.0.0        
-----------------------------------------
-works with results from 2014
-"""
+# imports
 from bs4 import BeautifulSoup
 import requests
 
@@ -12,6 +7,8 @@ def get_student(year, school_number, exam_number, exam_type):
     url = ''
     # converts the year into an integer
     year = int(year)
+    if year < 2014:
+        return {"error": "results before 2014 are not available"}
     # converts the exam number and the exam type
     exam_number = exam_number.lower()
     exam_type = exam_type.lower()
@@ -25,7 +22,6 @@ def get_student(year, school_number, exam_number, exam_type):
     elif exam_type == "csee":
         if year > 2014:
             url = f"https://onlinesys.necta.go.tz/results/{year}/csee/results/{school_number}.htm"
-            print(url)
         else:
             url = f"https://onlinesys.necta.go.tz/results/{year}/csee/{school_number}.htm"
 
@@ -152,6 +148,13 @@ def get_student(year, school_number, exam_number, exam_type):
                     subjects = []
                     for a in range(subject_length-1):
                         subjects.append(name.find_all('p')[4].text.split('  ')[a].strip(' '))
+
+                    subject_dict = {}
+                    for subject in subjects:
+                        subject_parts = subject.split("-")
+                        subject_code = subject_parts[0].strip()
+                        grade = subject_parts[1].strip()
+                        subject_dict[subject_code] = grade.strip("'")
                     
                     return_json = {
                         'status' : 200,
@@ -161,37 +164,21 @@ def get_student(year, school_number, exam_number, exam_type):
                         'gender' : student_gender,
                         'division' : student_division,
                         'point': student_points,
-                        'subjects': subjects
+                        'subjects': subject_dict,
+                        'error': None
                     }
 
                     return return_json
-                    break
                 else:
                     if i == total_students:
-                        return {
-                            'status' : 204,
-                            'message' : 'Exam number does not exist'
-                        }
-                        break
+                        return {'error': "Exam number does not exist"}
                     i+=1
 
         else:
-            return {
-                'status' : 404,
-                'message' : 'webpage not found'
-            }
+            return {'error': "An error occured"}
     
     # checks for connection(internet) error
-    except requests.ConnectionError:
-        return {
-            'status' : 408,
-            'message' : 'internet connection is down'
-        }
-    
-    except requests.exceptions.ReadTimeout:
-        return {
-            'status' : 404,
-            'message' : 'Not Found: The requested URL was not found on this server'
-        }
+    except:
+        return {'error': "An error occured"}
     
    

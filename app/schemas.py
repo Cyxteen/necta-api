@@ -1,4 +1,5 @@
-from pydantic import EmailStr, BaseModel
+from typing import Dict
+from pydantic import EmailStr, BaseModel, Field
 
 
 class CreateUser(BaseModel):
@@ -44,11 +45,30 @@ class GetResult(BaseModel):
     student_level: str
     year_completed: str
 
-class SingleStudent(BaseModel):
-    division: str | None = None
+class SingleStudentIn(BaseModel):
+    school_registration_number: str
+    student_exam_number: str
+    student_level: str
+    year_completed: int
+
+class SingleStudentOut(BaseModel):
+    school_name: str | None = None
     exam_number: str | None = None
     gender: str | None = None
+    division: str | None = None
     point: str | None = None
-    school_name: str | None = None
-    subjects: list = []
+    subjects: Dict[str, str] | None = None
     url: str | None = None
+    error: str | None = None
+
+class YearResult(BaseModel):
+    school_name: str
+    registration_number: str
+    division_1: int
+    division_2: int
+    division_3: int
+    division_4: int
+    division_0: int
+
+class ResultSchema(BaseModel):
+    years: Dict[str, YearResult]
