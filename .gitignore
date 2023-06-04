@@ -1,6 +1,6 @@
 __pycache__/
 details.txt
 requirements.txt
-venv/
+venv
 alembic.ini
 alembic/
