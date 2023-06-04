@@ -275,6 +275,9 @@ def multiple_years(name_of_school:str, type_of_exam:str, school_reg_number:str, 
                             total_students = total_students + 5 + total_absentees + total_withheld
                 data = {
                     year_str:{
+                        'total_students': total_students,
+                        'total_withheld': total_withheld,
+                        'absentees': total_absentees,
                         'division_1': division_one,
                         'division_2': division_two,
                         'division_3': division_three,

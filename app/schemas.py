@@ -69,6 +69,9 @@ class SchoolIn(BaseModel):
 
 
 class YearData(BaseModel):
+    total_students: int | None=None
+    total_withheld: int | None=None
+    absentees: int | None=None
     division_1: int | None=None
     division_2: int | None=None
     division_3: int | None=None
@@ -80,3 +83,14 @@ class SchoolResults(BaseModel):
     registration_number: Optional[str]
     error: Optional[str]
     data: Dict[str, YearData] | None=None
+
+class StatisticsData(BaseModel):
+    average_division_score: int
+    pass_rate: int
+    total_students: int
+
+class Statistics(BaseModel):
+    school_name: Optional[str]
+    registration_number: Optional[str]
+    error: Optional[str]
+    data: Dict[str, StatisticsData] | None=None

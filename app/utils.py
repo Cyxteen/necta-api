@@ -20,3 +20,33 @@ def check_status(user_id: int, db):
         return False
     else:
         return True
+    
+def statistics(data):
+    statistics = {
+        'school_name': data['school_name'], 
+        'registration_number': data['registration_number'],
+        'error': data['error'],
+        'data': {
+
+        }
+    }
+
+    for year, year_data in data["data"].items():
+        total_students = year_data["total_students"]
+        division_1 = year_data["division_1"]
+        division_2 = year_data["division_2"]
+        division_3 = year_data["division_3"]
+        division_4 = year_data["division_4"]
+
+        average_division_score = (division_1 + division_2 + division_3 + division_4) / 4
+        pass_rate = (division_1 / total_students) * 100
+
+        year_statistics = {
+            "average_division_score": average_division_score,
+            "pass_rate": round(pass_rate,1),
+            "total_students": total_students
+        }
+
+        statistics['data'][year] = year_statistics
+
+    return statistics

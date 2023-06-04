@@ -33,7 +33,7 @@ def getStudent(student_creds: schemas.SingleStudentIn, db: Session = Depends(get
 
 # get total results for school
 @router.get("/school", response_model=schemas.SchoolResults,status_code=status.HTTP_200_OK)
-def getStudent(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+def getSchool(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # for some reason the user_id returns a dict
     id = user_id.id
     # check the user status
@@ -47,3 +47,21 @@ def getStudent(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id:
     end = school.end_year
     school_results = compare(school_name, school_level, start, end)
     return school_results
+
+# get school statistics
+@router.get("/statistics", response_model=schemas.Statistics,status_code=status.HTTP_200_OK)
+def schoolStatistics(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+    id = user_id.id
+    # check the user status
+    check_status = utils.check_status(id, db)
+    if not check_status:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="not authorized")
+    
+    school_name = school.school_name
+    school_level = school.school_level
+    start = school.start_year
+    end = school.end_year
+    school_results = compare(school_name, school_level, start, end)
+    school_statistics = utils.statistics(school_results)
+
+    return school_statistics

@@ -280,6 +280,9 @@ def single_year(name_of_school:str, type_of_exam:str, start_year:int, curr_path)
                 'error': None,
                 'data': {
                     year_str: {
+                    'total_students': total_students,
+                    'total_withheld': total_withheld,
+                    'absentees': total_absentees,
                     'division_1': division_one,
                     'division_2': division_two,
                     'division_3': division_three,
