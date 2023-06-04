@@ -13,7 +13,7 @@ This repository contains the code for a RESTful Application Programming Interfac
 - User authentication and access control
 
 ## Usage
-coming soon
+coming soon...
 
 <img src="https://media.giphy.com/media/3y0oCOkdKKRi0/giphy.gif" width="100">
 <!-- To use the NECTA School Results API, you will need to obtain an API key. To request an API key, please email [insert email address here] with your name, organization, and intended use of the API. -->
