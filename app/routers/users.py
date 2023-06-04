@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 # route for creating a user
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
+@router.post("/register", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
 def createUSer(user: schemas.CreateUser, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # for some reason the user_id returns a dict
     id = user_id.id

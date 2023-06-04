@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional, TypedDict
 from pydantic import EmailStr, BaseModel, Field
 
 
@@ -61,14 +61,22 @@ class SingleStudentOut(BaseModel):
     url: str | None = None
     error: str | None = None
 
-class YearResult(BaseModel):
+class SchoolIn(BaseModel):
     school_name: str
-    registration_number: str
-    division_1: int
-    division_2: int
-    division_3: int
-    division_4: int
-    division_0: int
+    school_level: str
+    start_year: int
+    end_year: int | None = None
 
-class ResultSchema(BaseModel):
-    years: Dict[str, YearResult]
+
+class YearData(BaseModel):
+    division_1: int | None=None
+    division_2: int | None=None
+    division_3: int | None=None
+    division_4: int | None=None
+    division_0: int | None=None
+
+class SchoolResults(BaseModel):
+    school_name: Optional[str]
+    registration_number: Optional[str]
+    error: Optional[str]
+    data: Dict[str, YearData] | None=None

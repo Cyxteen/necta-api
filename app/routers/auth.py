@@ -5,6 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 # the tags argument is to be used in the API documentations
 router = APIRouter(
+    prefix="/auth",
     tags=['Authentication']
 )
 
