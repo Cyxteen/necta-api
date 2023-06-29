@@ -1,4 +1,4 @@
-from typing import Dict, Optional, TypedDict
+from typing import Dict, Optional
 from pydantic import EmailStr, BaseModel, Field
 
 
