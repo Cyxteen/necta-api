@@ -1,6 +1,6 @@
 from fastapi import Depends, APIRouter, HTTPException, status, BackgroundTasks
 from app.database import get_db
-from .. import schemas, models, utils, oauth2, send_email
+from app import schemas, models, utils, oauth2, send_email
 from passlib.context import CryptContext
 from  sqlalchemy.orm import Session
 import secrets

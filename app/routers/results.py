@@ -1,8 +1,8 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from app.database import get_db
-from .. import schemas, oauth2, utils
-from ..results import student
-from ..results.school import compare
+from app import schemas, oauth2, utils
+from app.results import student
+from app.results.school import compare
 from passlib.context import CryptContext
 from  sqlalchemy.orm import Session
 import datetime
