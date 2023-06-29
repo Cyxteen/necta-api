@@ -4,4 +4,3 @@ requirements.txt
 venv
 alembic.ini
 alembic/
-app/send_email.py
