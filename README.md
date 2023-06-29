@@ -1,22 +1,60 @@
-# NECTA School Results API
-
-This repository contains the code for a RESTful Application Programming Interface (API) for the National Examination Council of Tanzania (NECTA) school results. The API enables students, parents, educators, and policymakers to programmatically access NECTA exam results, providing a more efficient and accurate way to retrieve the data.
-
-## Features
-
-- Easy-to-use documentation
-- Search functionality for specific schools, candidates
-- Real-time data updates
-- data formats (JSON)
-- Integration with other applications (e.g., school management systems)
-- Customizable data filters and queries
-- User authentication and access control
-
-## Usage
-coming soon...
-
-<img src="https://media.giphy.com/media/3y0oCOkdKKRi0/giphy.gif" width="100">
-<!-- To use the NECTA School Results API, you will need to obtain an API key. To request an API key, please email [insert email address here] with your name, organization, and intended use of the API. -->
-
-<!-- Once you have obtained your API key, you can start using the API by sending requests to the following endpoint: -->
-
+alembic==1.11.0
+anyio==3.6.2
+bcrypt==4.0.1
+beautifulsoup4==4.12.2
+certifi==2022.12.7
+cffi==1.15.1
+charset-normalizer==3.1.0
+click==8.1.3
+colorama==0.4.6
+coverage==7.2.5
+cryptography==40.0.2
+dnspython==2.3.0
+ecdsa==0.18.0
+email-validator==2.0.0.post2
+exceptiongroup==1.1.1
+fastapi==0.95.1
+greenlet==2.0.2
+gunicorn==20.1.0
+h11==0.14.0
+httpcore==0.17.0
+httptools==0.5.0
+httpx==0.24.0
+idna==3.4
+iniconfig==2.0.0
+itsdangerous==2.1.2
+Jinja2==3.1.2
+Mako==1.2.4
+MarkupSafe==2.1.2
+orjson==3.8.11
+packaging==23.1
+passlib==1.7.4
+peewee==3.16.2
+pluggy==1.0.0
+psycopg2==2.9.6
+pyasn1==0.5.0
+pycparser==2.21
+pydantic==1.10.7
+PyMySQL==1.0.3
+pytest==7.3.1
+pytest-cov==2.12.1
+python-dotenv==1.0.0
+python-jose==3.3.0
+python-multipart==0.0.6
+PyYAML==6.0
+rand==0.3.0
+requests==2.29.0
+rsa==4.9
+six==1.16.0
+sniffio==1.3.0
+soupsieve==2.4.1
+SQLAlchemy==2.0.12
+starlette==0.26.1
+toml==0.10.2
+tomli==2.0.1
+typing_extensions==4.5.0
+ujson==5.7.0
+urllib3==1.26.15
+uvicorn==0.22.0
+watchfiles==0.19.0
+websockets==11.0.2
