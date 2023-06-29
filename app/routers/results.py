@@ -46,6 +46,9 @@ def getSchool(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: 
     school_level = school.school_level
     start = school.start_year
     end = school.end_year
+
+    if start > end:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="error in format")
     school_results = compare(school_name, school_level, start, end)
     return school_results
 
