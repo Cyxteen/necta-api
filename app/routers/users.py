@@ -1,6 +1,6 @@
-from fastapi import Depends, APIRouter, HTTPException, status
+from fastapi import Depends, APIRouter, HTTPException, status, BackgroundTasks
 from app.database import get_db
-from .. import schemas, models, utils, oauth2
+from .. import schemas, models, utils, oauth2, send_email
 from passlib.context import CryptContext
 from  sqlalchemy.orm import Session
 import secrets
@@ -14,10 +14,10 @@ router = APIRouter(
 )
 
 # route for creating a user
-@router.post("/register", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
-def createUSer(user: schemas.CreateUser, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+@router.post("/register", status_code=status.HTTP_201_CREATED)
+async def createUSer(user: schemas.CreateUser, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     # for some reason the user_id returns a dict
-    id = user_id.id
+    # id = user_id.id
     # check if the email already exists in the database
     existing_user = db.query(models.User).filter(models.User.email == user.email).first()
     if existing_user:
@@ -32,19 +32,20 @@ def createUSer(user: schemas.CreateUser, db: Session = Depends(get_db), user_id:
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-
-    return new_user
+     # Send verification email asynchronously
+    background_tasks.add_task(send_email.send_verification_email, new_user.email, new_user.username, new_user.activation_code)
+    return {"message":"An Email was sent to the provided address"}
 
 
 # route for getting a user
 @router.get("/profile", response_model=schemas.UserProfile)
-def get_user(db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+async def get_user(db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # for some reason the user_id returns a dict
     id = user_id.id
     user = db.query(models.User).filter(models.User.id == id).first()
     # check the user status
     check_status = utils.check_status(id, db)
-    # print(check_status)
+    # print(check_status) #debugging
     if not check_status:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="not authorized")
     if not user:
@@ -54,7 +55,7 @@ def get_user(db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_cu
 
 # update route for updating a user
 @router.patch("/profile", response_model=schemas.UserProfile, status_code=status.HTTP_200_OK)
-def update_user(user: schemas.UpdateUser, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+async def update_user(user: schemas.UpdateUser, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # for some reason the user_id returns a dict
     id = user_id.id
     user_update = db.query(models.User).filter(models.User.id == id)

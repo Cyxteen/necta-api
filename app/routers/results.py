@@ -1,10 +1,11 @@
 from fastapi import Depends, APIRouter, HTTPException, status
 from app.database import get_db
-from .. import schemas, oauth2, models, utils
+from .. import schemas, oauth2, utils
 from ..results import student
 from ..results.school import compare
 from passlib.context import CryptContext
 from  sqlalchemy.orm import Session
+import datetime
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -31,7 +32,7 @@ def getStudent(student_creds: schemas.SingleStudentIn, db: Session = Depends(get
     result = student.get_student(year_completed, school_registration, exam_number, exam_type)
     return result
 
-# get total results for school
+# get total results for school in a year
 @router.get("/school", response_model=schemas.SchoolResults,status_code=status.HTTP_200_OK)
 def getSchool(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # for some reason the user_id returns a dict
@@ -45,6 +46,31 @@ def getSchool(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: 
     school_level = school.school_level
     start = school.start_year
     end = school.end_year
+    school_results = compare(school_name, school_level, start, end)
+    return school_results
+
+# compare school(two) results
+@router.get("/compare", response_model=schemas.SchoolResults,status_code=status.HTTP_200_OK)
+def getSchools(schools: schemas.SchoolsIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+    # for some reason the user_id returns a dict
+    id = user_id.id
+    # check the user status
+    check_status = utils.check_status(id, db)
+    if not check_status:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="not authorized")
+    # checks current year
+    today = datetime.date.today()
+    current_year = today.year
+    # get year
+    year = schools.year
+
+    if(year == current_year):
+        pass
+    
+    school_name = schools.school_name
+    school_level = schools.school_level
+    start = schools.start_year
+    end = schools.end_year
     school_results = compare(school_name, school_level, start, end)
     return school_results
 

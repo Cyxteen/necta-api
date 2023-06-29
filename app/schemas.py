@@ -23,6 +23,7 @@ class UserOut(BaseModel):
 class UserProfile(BaseModel):
     username: str
     email: EmailStr
+    # activation_code: str
 
     class Config:
         orm_mode = True
@@ -31,6 +32,10 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+
+class EmailVerification(BaseModel):
+    email: EmailStr
+    verification_code: str
 
 class Token(BaseModel):
     access_token: str
@@ -67,6 +72,11 @@ class SchoolIn(BaseModel):
     start_year: int
     end_year: int | None = None
 
+class SchoolsIn(BaseModel):
+    school_one_name: str
+    school_two_name: str
+    level: str
+    year: int
 
 class YearData(BaseModel):
     total_students: int | None=None
