@@ -1,5 +1,5 @@
 from typing import Dict, Optional
-from pydantic import EmailStr, BaseModel, Field
+from pydantic import EmailStr, BaseModel
 
 
 class CreateUser(BaseModel):

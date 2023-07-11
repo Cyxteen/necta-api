@@ -12,3 +12,9 @@ class User(Base):
     password = Column(String(255), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
+class CachedData(Base):
+    __tablename__ = "cached_data"
+    id = Column(Integer, primary_key=True, nullable=False)
+    cache_key = Column(String(255), unique=True)
+    data = Column(String(255), nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))

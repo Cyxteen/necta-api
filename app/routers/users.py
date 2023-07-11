@@ -1,6 +1,6 @@
 from fastapi import Depends, APIRouter, HTTPException, status, BackgroundTasks
 from app.database import get_db
-from .. import schemas, models, utils, oauth2, send_email
+from app import schemas, models, utils, oauth2, send_verification_email
 from passlib.context import CryptContext
 from  sqlalchemy.orm import Session
 import secrets
@@ -33,7 +33,7 @@ async def createUSer(user: schemas.CreateUser, background_tasks: BackgroundTasks
     db.commit()
     db.refresh(new_user)
      # Send verification email asynchronously
-    background_tasks.add_task(send_email.send_verification_email, new_user.email, new_user.username, new_user.activation_code)
+    background_tasks.add_task(send_verification_email.send_verification_email, new_user.email, new_user.username, new_user.activation_code)
     return {"message":"An Email was sent to the provided address"}
 
 
