@@ -88,11 +88,17 @@ class YearData(BaseModel):
     division_4: int | None=None
     division_0: int | None=None
 
-class SchoolResults(BaseModel):
-    school_name: Optional[str]
-    registration_number: Optional[str]
+class SchoolData(BaseModel):
+    school_name: str
+    registration_number: str
     error: Optional[str]
-    data: Dict[str, YearData] | None=None
+    data: Dict[str, Dict[str, int]]
+
+class SchoolResults(BaseModel):
+    school_name: Dict[str, SchoolData]
+
+class CombinedSchoolResults(BaseModel):
+    __root__: Dict[str, SchoolData]
 
 class StatisticsData(BaseModel):
     average_division_score: int
