@@ -9,7 +9,8 @@ from alembic import context
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option('sqlalchemy.url', "postgresql+psycopg2://cyxteen:fLe6e8Ak1KYKlFQR48cEzA1ZjGzage3X@dpg-cien0vtph6etu3rlkt90-a.oregon-postgres.render.com/necta")
+# config.set_main_option('sqlalchemy.url', "postgresql+psycopg2://cyxteen:fLe6e8Ak1KYKlFQR48cEzA1ZjGzage3X@dpg-cien0vtph6etu3rlkt90-a.oregon-postgres.render.com/necta")
+config.set_main_option("sqlalchemy.url",'mysql+pymysql://root@localhost:3306/necta-api')
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
