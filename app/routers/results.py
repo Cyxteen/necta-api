@@ -15,9 +15,12 @@ router = APIRouter(
     prefix="/results",
     tags=['Results']
 )
+# path to the files
+adv_school = 'app/results/total-schools/ACSEE-2022.text'
+sec_school = 'app/results/total-schools/CSEE-2021.text'
 
 # get results for student(single)
-@router.get("/student", response_model=schemas.SingleStudentOut, status_code=status.HTTP_200_OK)
+@router.post("/student", response_model=schemas.SingleStudentOut, status_code=status.HTTP_200_OK)
 def getStudent(student_creds: schemas.SingleStudentIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # for some reason the user_id returns a dict
     id = user_id.id
@@ -48,7 +51,7 @@ def getStudent(student_creds: schemas.SingleStudentIn, db: Session = Depends(get
     return result
 
 # get total results for school in a year
-@router.get("/school", response_model=schemas.SchoolResults,status_code=status.HTTP_200_OK)
+@router.post("/school",status_code=status.HTTP_200_OK)
 def getSchool(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # for some reason the user_id returns a dict
     id = user_id.id
@@ -62,6 +65,19 @@ def getSchool(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: 
     start = school.start_year
     end = school.end_year
 
+    # checks if the name of the school is correct
+    file_path = ''
+    if school_level.lower() == "csee":
+        file_path = sec_school
+    elif school_level.lower() == "acsee":
+        file_path = adv_school
+
+    correct_school_name = utils.check_string_in_file(file_path, school_name.upper())
+
+    # if not return this error else continue running
+    if not correct_school_name:
+        return {'school_name': "", 'registration_number': "", 'error': 'the school name is not correct', 'data':{'start': ""}}
+    # print('---------------------------------------------------------------------------------------')
     if start > end:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="error in format")
     
@@ -83,8 +99,8 @@ def getSchool(school: schemas.SchoolIn, db: Session = Depends(get_db), user_id: 
     return school_results
 
 # compare school(two) results
-@router.get("/compare", response_model=schemas.CombinedSchoolResults, status_code=status.HTTP_200_OK)
-def getSchools(schools: schemas.SchoolsIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
+@router.post("/compare", response_model=schemas.CombinedSchoolResults, status_code=status.HTTP_200_OK)
+def getMultipleSchools(schools: schemas.SchoolsIn, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     id = user_id.id
     # check the user status if it's activated
     check_status = utils.check_status(id, db)

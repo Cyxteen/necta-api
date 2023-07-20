@@ -82,6 +82,7 @@ class YearData(BaseModel):
     total_students: int | None=None
     total_withheld: int | None=None
     absentees: int | None=None
+    
     division_1: int | None=None
     division_2: int | None=None
     division_3: int | None=None
@@ -94,8 +95,6 @@ class SchoolData(BaseModel):
     error: Optional[str]
     data: Dict[str, Dict[str, int]]
 
-class SchoolResults(BaseModel):
-    school_name: Dict[str, SchoolData]
 
 class CombinedSchoolResults(BaseModel):
     __root__: Dict[str, SchoolData]
