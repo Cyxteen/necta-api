@@ -1,0 +1,14 @@
+1. clone the repository to your local machine
+- using 'git clone https://github.com/Cyxteen/necta-api.git' without the quotes
+
+2. create a virtual environment
+- use 'python3 -m venv venv'
+
+3. activate the virtual environment
+- use 'venv\Scripts\activate.bat' 'venv' is subject to change
+
+4. install the necessary dependencies
+- use 'pip install -r requirements.txt'
+
+3. start the server
+- use 'uvicorn app.main:app --reload'
